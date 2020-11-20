@@ -1,7 +1,7 @@
 import Axios from "axios";
-import { useEffect,useState, useRef} from 'react'
+import { useEffect,useState, useRef, useCallback} from 'react'
 
-export const useSearch = (query) => {
+export const useSearch = (query, limit = 10) => {
    
     const [state, setState] = useState({
         articles: [],
@@ -21,12 +21,13 @@ export const useSearch = (query) => {
             console.log("Cancelling")
             cancelToken.current.cancel()
         }
-
+        
+        // same like passing ref in input
         cancelToken.current = Axios.CancelToken.source();
         const getUser = async ()=> {
           try{
             // origin=*&  FOR CORS
-            const response = await Axios.get(`https://en.wikipedia.org/w/api.php?origin=*&action=opensearch&search=${query}`, {
+            const response = await Axios.get(`https://en.wikipedia.org/w/api.php?origin=*&action=opensearch&search=${query}&limit=${limit}`, {
                 cancelToken: cancelToken.current.token
             });
             const parsedResponse = []
@@ -62,4 +63,32 @@ export const useSearch = (query) => {
       },[query])
 
     return state
+}
+
+// Only once user stops typing then sends requests
+export const useDebounce = (value, delay = 500) => {
+   const [debounceValue, setDebounceValue] = useState(value)
+
+   useEffect(() => {
+    const timer = setTimeout(()=> {
+       setDebounceValue(value)
+     }, delay)
+     return () => {
+       clearTimeout(timer)
+     }
+   }, [value, delay])
+
+   return debounceValue
+}
+
+export const useSearchForm = () => {
+   const [searchValue, setSearchValue] = useState('')
+
+   // since we are not using anything outside of function only what we passed so use this
+   const onSearchChange = useCallback((e) => setSearchValue(e.target.value), [])
+
+   return {
+     searchValue,
+     onSearchChange
+   }
 }

@@ -1,30 +1,30 @@
-import { useState} from 'react'
-import ReactAutocomplete from 'react-autocomplete'
-import { useSearch } from './hooks'
+import React from 'react'
 
-function App() {
-  const [value, setValue] = useState('')
-  
-  const {articles, status, error} = useSearch(value)
 
-  return (
-    <ReactAutocomplete
-        items={articles}
-        shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-        getItemValue={item => item.label}
-        renderItem={(item, highlighted) =>
-          <div
-            key={item.id}
-            style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}
-          >
-            {item.label}
-          </div>
-        }
-        value={value}
-        onChange={e => setValue( e.target.value )}
-        onSelect={value => setValue( value )}
-      />
-  );
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useRouteMatch,
+  useParams
+} from "react-router-dom";
+import Home from './pages/Home';
+import Search from './pages/Search';
+import NotFound from './pages/NotFound';
+
+const App = () => {
+  // Separate functional and presentational component
+  return( 
+    <Router>
+         <Switch>
+           <Route path="/" component={Home} exact />
+           <Route path="/search" component={Search} />
+           <Route component={NotFound} />
+         </Switch>
+    </Router>
+    
+  )
 }
 
 export default App;
