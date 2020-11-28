@@ -1,5 +1,6 @@
 import React from 'react'
-
+// npm install --save-dev @testing-library/react-hooks
+// npm run test:ci
 
 import {
   BrowserRouter as Router,
