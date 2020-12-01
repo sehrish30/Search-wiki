@@ -1,4 +1,5 @@
 import './styles.scss'
+import PropTypes from 'prop-types';
 
 const ListItem = ({id, label}) => {
     return (
@@ -9,6 +10,11 @@ const ListItem = ({id, label}) => {
             <p>{id}</p>
         </div>
     )
+}
+
+ListItem.propTypes = {
+    id: PropTypes.string.isRequired,
+    label: PropTypes.string
 }
 
 export default ListItem

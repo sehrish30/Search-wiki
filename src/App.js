@@ -1,6 +1,7 @@
 import React from 'react'
 // npm install --save-dev @testing-library/react-hooks
 // npm run test:ci
+// you can check coverage report by pasting link of coverage => index.html in server
 
 import {
   BrowserRouter as Router,
