@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { useEffect,useState, useRef, useCallback} from 'react'
 
-export const useSearch = (query, limit = 10) => {
+export const useSearch = (query = '', limit = 10) => {
    
     const [state, setState] = useState({
         articles: [],
@@ -24,6 +24,9 @@ export const useSearch = (query, limit = 10) => {
         
         // same like passing ref in input
         cancelToken.current = Axios.CancelToken.source();
+
+        // before start searching status pending
+        setState({...state, status: 'PENDING'})
         const getUser = async ()=> {
           try{
             // origin=*&  FOR CORS
