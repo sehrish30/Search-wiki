@@ -13,15 +13,14 @@ import NotFound from './pages/NotFound';
 
 const App = () => {
   // Separate functional and presentational component
+  // router is in index.html wrapped around App
+  // No router wrapped around switch because app independant we can send our own router when testing
   return( 
-    <Router>
          <Switch>
            <Route path="/" component={Home} exact />
            <Route path="/search" component={Search} />
            <Route component={NotFound} />
          </Switch>
-    </Router>
-    
   )
 }
 
